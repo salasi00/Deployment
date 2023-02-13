@@ -274,7 +274,6 @@ function AddProperty() {
               id="upload"
               name="image"
               onChange={handleChangeAddProperty}
-              required
             />
             {preview && (
               <Image
