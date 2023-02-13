@@ -17,8 +17,6 @@ import { useQuery } from "react-query";
 import { API } from "../config/api";
 import { useMutation } from "react-query";
 
-import Swal from "sweetalert2";
-
 const styles = {
   Cursor: {
     cursor: "pointer",

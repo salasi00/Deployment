@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Button, Container, Form, Image } from "react-bootstrap";
 
-import Swal from "sweetalert2";
-
 import jwt from "jwt-decode";
 
 import { useMutation } from "react-query";
@@ -92,18 +90,18 @@ function AddProperty() {
       addProperty.sqf = "";
       addProperty.description = "";
 
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Property has been saved",
-      });
+      const alert = (
+        <Alert variant="danger" className="py-1">
+          Property has been Uploaded
+        </Alert>
+      );
       navigate(`/`);
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Property failed to save",
-      });
+      const alert = (
+        <Alert variant="danger" className="py-1">
+          Failed to Upload Property
+        </Alert>
+      );
       console.log(error);
     }
   });

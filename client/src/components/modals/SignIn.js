@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { API } from "../../config/api";
 
-import Swal from "sweetalert2";
-
 function SignIn(props) {
   const handleClose = () => props.setSignInShow(false);
 
@@ -41,13 +39,11 @@ function SignIn(props) {
           payload: response.data.data,
         });
         console.log("responseeee", response);
-        Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "You have successfully logged in",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        const alert = (
+          <Alert variant="success" className="py-1">
+            Login success
+          </Alert>
+        );
 
         props.setSignInShow(false);
         props.setSignIn(true);
@@ -56,18 +52,18 @@ function SignIn(props) {
           ? navigate("/owner")
           : navigate("/");
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Gagal Login",
-        });
+        const alert = (
+          <Alert variant="danger" className="py-1">
+            Login failed
+          </Alert>
+        );
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Username or Password went wrong",
-      });
+      const alert = (
+        <Alert variant="danger" className="py-1">
+          Wrong Username or Password 
+        </Alert>
+      );
       console.log(error);
       props.setSignInShow(true);
     }

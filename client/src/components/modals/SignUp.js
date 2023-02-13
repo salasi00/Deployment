@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Button, Form, Image, Modal } from "react-bootstrap";
 
-import Swal from "sweetalert2";
-
 import { useMutation } from "react-query";
 import { API } from "../../config/api";
 
@@ -70,13 +68,11 @@ function SignUp(props) {
       props.setSignUpShow(false);
       props.setSignInShow(true);
 
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "User has been saved",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      const alert = (
+        <Alert variant="danger" className="py-1">
+          Register Success
+        </Alert>
+      );
 
       signUp.fullname = "";
       signUp.username = "";
@@ -88,11 +84,11 @@ function SignUp(props) {
       signUp.address = "";
       signUp.image = "";
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "User failed to save",
-      });
+      const alert = (
+        <Alert variant="danger" className="py-1">
+          Failed to Register
+        </Alert>
+      );
       console.log(error);
     }
   });

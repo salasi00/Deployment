@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	housedto "housy/dto/house"
 	dto "housy/dto/result"
 	"housy/models"
@@ -10,6 +12,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"gorm.io/datatypes"
@@ -32,11 +36,6 @@ func (h *handlerhouse) FindHouse(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err.Error())
 	}
 
-	for i, p := range house {
-		imagePath := os.Getenv("PATH_FILE") + p.Image
-		house[i].Image = imagePath
-	}
-
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: house}
 	json.NewEncoder(w).Encode(response)
@@ -55,8 +54,6 @@ func (h *handlerhouse) GetHouse(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	house.Image = os.Getenv("PATH_FILE") + house.Image
-
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: house}
 	json.NewEncoder(w).Encode(response)
@@ -66,7 +63,19 @@ func (h *handlerhouse) CreateHouse(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	dataContex := r.Context().Value("dataFile")
-	filename := dataContex.(string)
+	filepath := dataContex.(string)
+
+	var ctx = context.Background()
+	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+	var API_KEY = os.Getenv("API_KEY")
+	var API_SECRET = os.Getenv("API_SECRET")
+
+	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+
+	resp, errUpload := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "Housy"})
+	if errUpload != nil {
+		fmt.Println(errUpload.Error())
+	}
 
 	cityid, _ := strconv.Atoi(r.FormValue("cityid"))
 	userid, _ := strconv.Atoi(r.FormValue("userid"))
@@ -80,7 +89,7 @@ func (h *handlerhouse) CreateHouse(w http.ResponseWriter, r *http.Request) {
 		Sqf:         r.FormValue("sqf"),
 		Description: r.FormValue("description"),
 		Address:     r.FormValue("address"),
-		Image:       filename,
+		Image:       resp.SecureURL,
 		CityID:      cityid,
 		UserID:      userid,
 	}
@@ -108,7 +117,7 @@ func (h *handlerhouse) CreateHouse(w http.ResponseWriter, r *http.Request) {
 		Sqf:         request.Sqf,
 		Description: request.Description,
 		Address:     request.Address,
-		Image:       filename,
+		Image:       resp.SecureURL,
 	}
 
 	data, err := h.HouseRepository.CreateHouse(house)

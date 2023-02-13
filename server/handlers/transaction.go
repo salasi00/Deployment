@@ -99,11 +99,6 @@ func (h *handlertransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 			TransIdIsMatch = true
 		}
 	}
-	// checkin := request.CheckIn.String()
-
-	// checkinformat := checkin.Format("2006-01-02")
-	// checkout, _ := time.Parse("2006-01-02", request.CheckOut.String())
-
 	transaction := models.Transaction{
 		ID:       TransactionId,
 		CheckIn:  request.CheckIn,
@@ -126,12 +121,9 @@ func (h *handlertransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 
 	transaction, _ = h.TransactionRepository.GetTransaction(newTransaction.ID)
 
-	// 1. Initiate Snap client
 	var s = snap.Client{}
 	s.New(os.Getenv("SERVER_KEY"), midtrans.Sandbox)
-	// Use to midtrans.Production if you want Production Environment (accept real transaction).
 
-	// 2. Initiate Snap request param
 	req := &snap.Request{
 		TransactionDetails: midtrans.TransactionDetails{
 			OrderID:  strconv.Itoa(transaction.ID),
@@ -146,7 +138,6 @@ func (h *handlertransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 		},
 	}
 
-	// 3. Execute request create Snap transaction to Midtrans Snap API
 	snapResp, _ := s.CreateTransaction(req)
 	fmt.Println("ini snaprespppp", snapResp)
 
@@ -219,10 +210,9 @@ func (h *handlertransaction) DeleteTransaction(w http.ResponseWriter, r *http.Re
 
 func SendMail(status string, transaction models.Transaction) {
 
-	//  if status != transaction.Status && status == "success" {
 	var CONFIG_SMTP_HOST = "smtp.gmail.com"
 	var CONFIG_SMTP_PORT = 587
-	var CONFIG_SENDER_NAME = "Farid Nugroho <faridnugroho1011@gmail.com>"
+	var CONFIG_SENDER_NAME = "Housy <bogeymanyolo@gmail.com>"
 	var CONFIG_AUTH_EMAIL = os.Getenv("EMAIL_SYSTEM")
 	var CONFIG_AUTH_PASSWORD = os.Getenv("PASSWORD_SYSTEM")
 	//  }
@@ -677,30 +667,3 @@ func (h *handlertransaction) FindTransactionByID(w http.ResponseWriter, r *http.
 	response := dto.SuccessResult{Code: http.StatusOK, Data: transaction}
 	json.NewEncoder(w).Encode(response)
 }
-
-// func (h *handlertransaction) FindTransactionOwner(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("Content-Type", "application/json")
-
-// 	// userInfo := r.Context().Value("userInfo").(jwt.MapClaims)
-// 	// userId := int(userInfo["id"].(float64))
-
-// 	// transactions := models.Transaction{
-// 	// 	House: models.House{
-// 	// 		UserID: userId,
-// 	// 	},
-// 	// }
-// 	// houseId, _ := strconv.Atoi(mux.Vars(r)["houseid"])
-
-// 	userID, _ := strconv.Atoi(mux.Vars(r)["user_id"])
-
-// 	transaction, err := h.TransactionRepository.FindTransactionOwner(userID)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 		json.NewEncoder(w).Encode(err.Error())
-// 	}
-// 	fmt.Println(transaction)
-
-// 	w.WriteHeader(http.StatusOK)
-// 	response := dto.SuccessResult{Code: http.StatusOK, Data: transaction}
-// 	json.NewEncoder(w).Encode(response)
-// }
