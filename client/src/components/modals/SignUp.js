@@ -10,7 +10,6 @@ function SignUp(props) {
   const handleClose = () => props.setSignUpShow(false);
   const handleShow = () => props.setSignUpShow(true);
 
-  const [preview, setPreview] = useState(null); //For image preview
   const [signUp, setSignUp] = useState({
     roleid: "",
     fullname: "",
@@ -20,7 +19,6 @@ function SignUp(props) {
     gender: "",
     phone: "",
     address: "",
-    image: "",
   });
 
   const handleChangeSignUp = (e) => {
@@ -50,7 +48,6 @@ function SignUp(props) {
       formData.append("gender", signUp.gender);
       formData.append("phone", signUp.phone);
       formData.append("address", signUp.address);
-      formData.append("image", signUp.image[0]);
 
       const response = await API.post("/register", formData);
       console.log("berhasil menambahkan user", response);
@@ -63,7 +60,6 @@ function SignUp(props) {
       signUp.gender = "";
       signUp.phone = "";
       signUp.address = "";
-      signUp.image = "";
 
       props.setSignUpShow(false);
       props.setSignInShow(true);
@@ -82,7 +78,6 @@ function SignUp(props) {
       signUp.gender = "";
       signUp.phone = "";
       signUp.address = "";
-      signUp.image = "";
     } catch (error) {
       const alert = (
         <Alert variant="danger" className="py-1">
@@ -191,26 +186,6 @@ function SignUp(props) {
                 name="address"
                 onChange={handleChangeSignUp}
               />
-            </Form.Group>
-            <Form.Group className="mb-5">
-              <Form.Label className="fw-bold">Photo Profile</Form.Label>
-              <Form.Control
-                type="file"
-                id="upload"
-                name="image"
-                onChange={handleChangeSignUp}
-              />
-              {preview && (
-                <Image
-                  src={preview}
-                  style={{
-                    maxWidth: "150px",
-                    maxHeight: "150px",
-                    objectFit: "cover",
-                    marginTop: "10px",
-                  }}
-                />
-              )}
             </Form.Group>
             <Form.Group className="d-flex gap-3 flex-column text-center">
               <Button variant="primary w-100" type="submit">
