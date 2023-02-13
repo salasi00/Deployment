@@ -199,7 +199,6 @@ function SignUp(props) {
                 id="upload"
                 name="image"
                 onChange={handleChangeSignUp}
-                required
               />
               {preview && (
                 <Image
