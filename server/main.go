@@ -40,4 +40,5 @@ func main() {
 
 	// Embed the setup allowed in 2 parameter on this below code ...
 	http.ListenAndServe(":"+port, handlers.CORS(AllowedHeaders, AllowedMethods, AllowedOrigins)(r))
+	http.ListenAndServe(":"+port, r)
 }
