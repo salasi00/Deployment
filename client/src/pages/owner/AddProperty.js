@@ -77,18 +77,18 @@ function AddProperty() {
       const response = await API.post("/house", formData);
       console.log("berhasil menambahkan house", response);
 
-      addProperty.image = "";
-      addProperty.name = "";
-      addProperty.cityid = "";
-      addProperty.userid = "";
-      addProperty.address = "";
-      addProperty.price = "";
-      addProperty.rent = "";
-      addProperty.amenities = "";
-      addProperty.bedroom = "";
-      addProperty.bathroom = "";
-      addProperty.sqf = "";
-      addProperty.description = "";
+      // addProperty.image = "";
+      // addProperty.name = "";
+      // addProperty.cityid = "";
+      // addProperty.userid = "";
+      // addProperty.address = "";
+      // addProperty.price = "";
+      // addProperty.rent = "";
+      // addProperty.amenities = "";
+      // addProperty.bedroom = "";
+      // addProperty.bathroom = "";
+      // addProperty.sqf = "";
+      // addProperty.description = "";
 
       const alert = (
         <Alert variant="danger" className="py-1">
@@ -122,7 +122,7 @@ function AddProperty() {
             <Form.Control
               type="text"
               name="name"
-              value={addProperty?.name}
+              value={formData?.name}
               onChange={handleChangeAddProperty}
               required
             />
@@ -132,7 +132,7 @@ function AddProperty() {
             <Form.Label className="fw-bold">City</Form.Label>
             <Form.Select
               name="cityid"
-              value={addProperty?.cityid}
+              value={formData?.cityid}
               onChange={handleChangeAddProperty}
               required
             >
@@ -151,7 +151,7 @@ function AddProperty() {
               rows={4}
               as="textarea"
               name="address"
-              value={addProperty?.address}
+              value={formData?.address}
               onChange={handleChangeAddProperty}
               required
             />
@@ -162,7 +162,7 @@ function AddProperty() {
             <Form.Control
               type="text"
               name="price"
-              value={addProperty?.price}
+              value={formData?.price}
               onChange={handleChangeAddProperty}
               required
             />
@@ -172,7 +172,7 @@ function AddProperty() {
             <Form.Label className="fw-bold">Type of Rent</Form.Label>
             <Form.Select
               name="rent"
-              value={addProperty?.rent}
+              value={formData?.rent}
               onChange={handleChangeAddProperty}
               required
             >
@@ -188,21 +188,21 @@ function AddProperty() {
             <Form.Group className="d-flex gap-4">
               <Form.Check
                 onChange={handleChangeAddProperty}
-                checked={addProperty?.amenities.includes("Furnished")}
+                checked={formData?.amenities.includes("Furnished")}
                 value="Furnished"
                 type="checkbox"
                 label="Furnished"
               />
               <Form.Check
                 onChange={handleChangeAddProperty}
-                checked={addProperty?.amenities.includes("Pet Allowed")}
+                checked={formData?.amenities.includes("Pet Allowed")}
                 value="Pet Allowed"
                 type="checkbox"
                 label="Pet Allowed"
               />
               <Form.Check
                 onChange={handleChangeAddProperty}
-                checked={addProperty?.amenities.includes("Shared Accomodation")}
+                checked={formData?.amenities.includes("Shared Accomodation")}
                 value="Shared Accomodation"
                 type="checkbox"
                 label="Shared Accomodation"
@@ -214,7 +214,7 @@ function AddProperty() {
             <Form.Label className="fw-bold">Bedroom</Form.Label>
             <Form.Select
               name="bedroom"
-              value={addProperty?.bedroom}
+              value={formData?.bedroom}
               onChange={handleChangeAddProperty}
               required
             >
@@ -231,7 +231,7 @@ function AddProperty() {
             <Form.Label className="fw-bold">Bathroom</Form.Label>
             <Form.Select
               name="bathroom"
-              value={addProperty?.bathroom}
+              value={formData?.bathroom}
               onChange={handleChangeAddProperty}
               required
             >
@@ -245,11 +245,11 @@ function AddProperty() {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="fw-bold">SQF</Form.Label>
+            <Form.Label className="fw-bold">Area</Form.Label>
             <Form.Control
               type="text"
               name="sqf"
-              value={addProperty?.sqf}
+              value={formData?.sqf}
               onChange={handleChangeAddProperty}
               required
             />
@@ -261,14 +261,14 @@ function AddProperty() {
               rows={4}
               as="textarea"
               name="description"
-              value={addProperty?.description}
+              value={formData?.description}
               onChange={handleChangeAddProperty}
               required
             />
           </Form.Group>
 
           <Form.Group className="mb-5">
-            <Form.Label className="fw-bold">Photo House</Form.Label>
+            <Form.Label className="fw-bold">Property Image</Form.Label>
             <Form.Control
               type="file"
               id="upload"
