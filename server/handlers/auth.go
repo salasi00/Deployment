@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	authdto "housy/dto/auth"
@@ -12,12 +11,10 @@ import (
 	"housy/repositories"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 
-	"github.com/cloudinary/cloudinary-go/v2"
-	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
+	
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v4"
 )
@@ -33,20 +30,6 @@ func HandlerAuth(AuthRepository repositories.AuthRepository) *handlerAuth {
 func (h *handlerAuth) Register(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	dataContex := r.Context().Value("dataFile")
-	filepath := dataContex.(string)
-
-	var ctx = context.Background()
-	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
-	var API_KEY = os.Getenv("API_KEY")
-	var API_SECRET = os.Getenv("API_SECRET")
-
-	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
-	resp, errUpload := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "Housy"})
-	if errUpload != nil {
-		fmt.Println(errUpload.Error())
-	}
-
 	roleid, _ := strconv.Atoi(r.FormValue("roleid"))
 	request := authdto.RegisterRequest{
 		RoleID:   roleid,
@@ -57,7 +40,6 @@ func (h *handlerAuth) Register(w http.ResponseWriter, r *http.Request) {
 		Gender:   r.FormValue("gender"),
 		Phone:    r.FormValue("phone"),
 		Address:  r.FormValue("address"),
-		Image:    resp.SecureURL,
 	}
 
 	validation := validator.New()
@@ -85,7 +67,6 @@ func (h *handlerAuth) Register(w http.ResponseWriter, r *http.Request) {
 		Gender:   request.Gender,
 		Phone:    request.Phone,
 		Address:  request.Address,
-		Image:    resp.SecureURL,
 	}
 
 	data, err := h.AuthRepository.Register(user)

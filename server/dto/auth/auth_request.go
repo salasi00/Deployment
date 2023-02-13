@@ -15,7 +15,7 @@ type RegisterRequest struct {
 	Gender    string      `gorm:"type: varchar(255)" json:"gender" validate:"required"`
 	Phone     string      `gorm:"type: varchar(255)" json:"phone" validate:"required"`
 	Address   string      `gorm:"type: varchar(255)" json:"address" validate:"required"`
-	Image     string      `json:"image" form:"image" validate:"required"`
+	Image     string      `json:"image" form:"image"`
 	CreatedAt time.Time   `json:"created_at"`
 	UpdatedAt time.Time   `json:"updated_at"`
 }
