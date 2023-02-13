@@ -97,7 +97,7 @@ func (h *handlerhouse) CreateHouse(w http.ResponseWriter, r *http.Request) {
 
 	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
 
-	resp, errUpload := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "Housy"})
+	resp, errUpload := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "housy"})
 	if errUpload != nil {
 		fmt.Println(errUpload.Error())
 	}
