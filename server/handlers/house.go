@@ -65,18 +65,6 @@ func (h *handlerhouse) CreateHouse(w http.ResponseWriter, r *http.Request) {
 	dataContex := r.Context().Value("dataFile")
 	filepath := dataContex.(string)
 
-	var ctx = context.Background()
-	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
-	var API_KEY = os.Getenv("API_KEY")
-	var API_SECRET = os.Getenv("API_SECRET")
-
-	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
-
-	resp, errUpload := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "Housy"})
-	if errUpload != nil {
-		fmt.Println(errUpload.Error())
-	}
-
 	cityid, _ := strconv.Atoi(r.FormValue("cityid"))
 	userid, _ := strconv.Atoi(r.FormValue("userid"))
 	request := housedto.CreateHouseRequest{
@@ -89,7 +77,6 @@ func (h *handlerhouse) CreateHouse(w http.ResponseWriter, r *http.Request) {
 		Sqf:         r.FormValue("sqf"),
 		Description: r.FormValue("description"),
 		Address:     r.FormValue("address"),
-		Image:       resp.SecureURL,
 		CityID:      cityid,
 		UserID:      userid,
 	}
@@ -101,6 +88,18 @@ func (h *handlerhouse) CreateHouse(w http.ResponseWriter, r *http.Request) {
 		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
 		json.NewEncoder(w).Encode(response)
 		return
+	}
+
+	var ctx = context.Background()
+	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+	var API_KEY = os.Getenv("API_KEY")
+	var API_SECRET = os.Getenv("API_SECRET")
+
+	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+
+	resp, errUpload := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "Housy"})
+	if errUpload != nil {
+		fmt.Println(errUpload.Error())
 	}
 
 	house := models.House{
