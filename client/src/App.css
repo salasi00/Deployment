@@ -1,0 +1,94 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Check-in & Check-out Awal */
+
+.timeline {
+  border-left: 4px solid #D0D0D0;
+  position: relative;
+  list-style: none;
+}
+
+
+.timeline .timeline-item-top {
+  position: relative;
+}
+.timeline .timeline-item-bottom {
+  position: relative;
+}
+
+
+
+.timeline .timeline-item-top:after {
+  position: absolute;
+  display: block;
+  top: 0;
+}
+.timeline .timeline-item-bottom:after {
+  position: absolute;
+  display: block;
+  top: 0;
+}
+
+
+.timeline .timeline-item-top:after {
+  background: white;
+  border: 3px solid #5A57AB;
+  left: -42px;
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+  content: "";
+}
+.timeline .timeline-item-bottom:after {
+  background-color: #5A57AB;
+  left: -42px;
+  top: 37px;
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+  content: "";
+}
+
+/* Check-in & Check-out Akhir */
+.react-datepicker__input-container input {
+  display: block;
+  width: 100%;
+  height: 50px;
+}

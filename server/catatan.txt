@@ -1,0 +1,19 @@
+1. Initializing project
+go mod init _project_name_
+
+2. Install gorilla/mux
+go get -u github.com/gorilla/mux
+
+3. Create main.go file
+
+4. Gorm
+go get -u gorm.io/gorm
+
+5. MySql
+go get -u gorm.io/driver/mysql
+
+6. Validator
+go get github.com/go-playground/validator/v10
+
+7. Golang Json Web Token (JWT)
+go get -u github.com/golang-jwt/jwt/v4
