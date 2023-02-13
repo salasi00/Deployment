@@ -1,7 +1,11 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
+	"os"
+
 	// housedto "housy/dto/house"
 	dto "housy/dto/result"
 	usersdto "housy/dto/users"
@@ -10,10 +14,11 @@ import (
 	// "housy/pkg/bcrypt"
 	"housy/repositories"
 	"net/http"
-	"os"
 	"strconv"
 
 	// "github.com/go-playground/validator/v10"
+	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"github.com/gorilla/mux"
 )
 
@@ -34,11 +39,6 @@ func (h *handler) FindUsers(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err.Error())
 	}
 
-	for i, p := range users {
-		imagePath := os.Getenv("PATH_FILE") + p.Image
-		users[i].Image = imagePath
-	}
-
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: users}
 	json.NewEncoder(w).Encode(response)
@@ -57,8 +57,6 @@ func (h *handler) GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user.Image = os.Getenv("PATH_FILE") + user.Image
-
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: user}
 	json.NewEncoder(w).Encode(response)
@@ -67,13 +65,20 @@ func (h *handler) GetUser(w http.ResponseWriter, r *http.Request) {
 func (h *handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	// get data user token
-	// userInfo := r.Context().Value("userInfo").(jwt.MapClaims)
-	// userId := int(userInfo["id"].(float64))
-
-	// get image filename
 	dataContex := r.Context().Value("dataFile")
-	filename := dataContex.(string)
+	filepath := dataContex.(string)
+
+	var ctx = context.Background()
+	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+	var API_KEY = os.Getenv("API_KEY")
+	var API_SECRET = os.Getenv("API_SECRET")
+
+	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+
+	resp, errUpload := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "dumbmerch"})
+	if errUpload != nil {
+		fmt.Println(errUpload.Error())
+	}
 
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
 	user, err := h.UserRepository.GetUser(int(id))
@@ -84,8 +89,8 @@ func (h *handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if filename != "false" {
-		user.Image = filename
+	if resp.SecureURL != "false" {
+		user.Image = resp.SecureURL
 	}
 
 	data, err := h.UserRepository.UpdateUser(user)
