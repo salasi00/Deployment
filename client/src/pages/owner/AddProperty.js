@@ -12,7 +12,6 @@ function AddProperty() {
   const getToken = localStorage.getItem("token");
   const hasilDecode = jwt(getToken);
   console.log("ini hasilDecode", hasilDecode.id);
-  console.log("ini tipe hasilDecode", typeof hasilDecode.id);
 
   const navigate = useNavigate();
   const [preview, setPreview] = useState(null); //For image preview
@@ -61,18 +60,18 @@ function AddProperty() {
       e.preventDefault();
 
       const formData = new FormData();
-      formData.append("image", addProperty.image[0]);
-      formData.append("name", addProperty.name);
-      formData.append("cityid", addProperty.cityid);
-      formData.append("userid", addProperty.userid);
-      formData.append("address", addProperty.address);
-      formData.append("price", addProperty.price);
-      formData.append("rent", addProperty.rent);
-      formData.append("amenities", JSON.stringify(addProperty.amenities));
-      formData.append("bedroom", addProperty.bedroom);
-      formData.append("bathroom", addProperty.bathroom);
-      formData.append("sqf", addProperty.sqf);
-      formData.append("description", addProperty.description);
+      formData.append("image", addProperty?.image[0], addProperty?.image[0]?.name);
+      formData.append("name", addProperty?.name);
+      formData.append("cityid", addProperty?.cityid);
+      formData.append("userid", addProperty?.userid);
+      formData.append("address", addProperty?.address);
+      formData.append("price", addProperty?.price);
+      formData.append("rent", addProperty?.rent);
+      formData.append("amenities", JSON.stringify(addProperty?.amenities));
+      formData.append("bedroom", addProperty?.bedroom);
+      formData.append("bathroom", addProperty?.bathroom);
+      formData.append("sqf", addProperty?.sqf);
+      formData.append("description", addProperty?.description);
 
       const response = await API.post("/house", formData);
       console.log("berhasil menambahkan house", response);
