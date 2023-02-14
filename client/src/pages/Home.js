@@ -249,6 +249,7 @@ const Home = () => {
                 <Card className="h-100 p-2 bg-light">
                   <Card.Img
                     variant="top rounded"
+                    height="300px"
                     src={item.image}
                     className="position-relative"
                   />
