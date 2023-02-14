@@ -21,7 +21,7 @@ type CreateHouseRequest struct {
 	Sqf         string         `json:"sqf" form:"sqf" validate:"required"`
 	Description string         `json:"description" form:"description" validate:"required"`
 	Address     string         `json:"address" form:"address" validate:"required"`
-	Image       string         `json:"image" form:"image" validate:"required"`
+	Image       string         `json:"image" form:"image"`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 }
