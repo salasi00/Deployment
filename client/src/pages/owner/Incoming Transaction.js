@@ -41,7 +41,7 @@ const IncomingTransaction = () => {
             <thead>
               <tr>
                 <th>No</th>
-                <th>Users</th>
+                <th>Property Name</th>
                 <th>Type of Rent</th>
                 <th>Bukti Transfer</th>
                 <th className="text-center">Status Payment</th>
