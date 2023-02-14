@@ -127,7 +127,7 @@ func (h *handlerhouse) CreateHouse(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, _ = h.HouseRepository.GetHouse(data.ID)
+	// data, _ = h.HouseRepository.GetHouse(data.ID)
 
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: data}
