@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, Container, Image, Form } from "react-bootstrap";
+import { Button, Card, Container, Image, Form, Modal } from "react-bootstrap";
 
 import jwt from "jwt-decode";
 
@@ -23,7 +23,40 @@ const styles = {
   },
 };
 
-const Profile = () => {
+const Profile = (props) => {
+  const navigate = useNavigate();
+  const [password, setPassword] = useState({
+    old_password: "",
+    new_password: "",
+    confirm_password: "",
+  });
+
+  const handlerPassword = (e) => {
+    setPassword({
+      ...password,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault(); // Insert product data
+      const response = await API.patch("/changepassword", password);
+      console.log("password change", response.data);
+
+      if (password.new_password !== password.confirm_password) {
+        return alert("your password didn't match");
+      }
+
+      alert("successfuly change password!");
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   const [modalShow, setModalShow] = React.useState(false);
 
   const getToken = localStorage.getItem("token");
