@@ -272,7 +272,7 @@ const IncomingTransaction = () => {
                     }}
                   >
                     {/* {getDataProfile.fullname} */}
-                    Farid Nugroho
+                    Tenant
                   </td>
                   <td
                     style={{
