@@ -547,7 +547,7 @@ func SendMail(status string, transaction models.Transaction) {
 						<tr>
 						  <td>
 							<p>Hi there,</p>
-							<p>Thank you for purchasing from our App!.</p>
+							<p>This is your receipt for your last purchase!</p>
 							<table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
 							  <tbody>
 								<tr>
@@ -566,7 +566,7 @@ func SendMail(status string, transaction models.Transaction) {
 							  </tbody>
 							</table>
 							<p>We hope you enjoy your stay on our property!</p>
-							<p>Good Luck Have Fun.</p>
+							<p>Thank you for purchasing from our App.</p>
 						  </td>
 						</tr>
 					  </table>
