@@ -231,7 +231,7 @@ const Profile = (props) => {
                     id="upload"
                     name="image"
                     onChange={handleChangePhoto}
-                    required
+                    hidden
                   />
                   <Button
                     className="btn btn-primary mt-2 w-100"
@@ -241,7 +241,9 @@ const Profile = (props) => {
                       objectFit: "cover",
                     }}
                   >
+                    <label for="upload">
                     Change Photo Profile
+                    </label>
                   </Button>
                 </Form.Group>
               </Form>
